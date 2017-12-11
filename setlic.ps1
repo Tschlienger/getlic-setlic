@@ -2,7 +2,12 @@
 $product = (Get-WmiObject Win32_OperatingSystem).Caption
 
 # Import key list
-$list = Import-Csv ".\lic.csv"
+If (Test-Path ".\lic.csv") {
+    $list = Import-Csv ".\lic.csv"
+} Else {
+    (New-Object -ComObject Wscript.Shell).Popup("Couldn't find your license file!", 0, "Error", 0+48)
+    break
+}
 
 # Try to get license row with product info matching current PC
 Try {$key = ($list | Where {$_.Product -eq $product})[0]).Key}
