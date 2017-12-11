@@ -1,9 +1,12 @@
+# Define variables
+$licFilePath = ".\lic.csv"
+
 # Get product info and key from current PC
 $product = (Get-WmiObject Win32_OperatingSystem).Caption
 
 # Import key list
-If (Test-Path ".\lic.csv") {
-    $list = Import-Csv ".\lic.csv"
+If (Test-Path $licFilePath) {
+    $list = Import-Csv $licFilePath
 } Else {
     (New-Object -ComObject Wscript.Shell).Popup("Couldn't find your license file!", 0, "Error", 0+48)
     break
@@ -26,4 +29,4 @@ If ($service.InstallProductKey($key)) {
 $service.RefreshLicenseStatus()
 
 # Write key list to file removing used one
-$list | Where {$_.Key -ne $key} | Export-Csv ".\lic.csv" -NoTypeInformation
+$list | Where {$_.Key -ne $key} | Export-Csv $licFilePath -NoTypeInformation
