@@ -5,13 +5,11 @@ $product = (Get-WmiObject Win32_OperatingSystem).Caption
 $list = Import-Csv ".\lic.csv"
 
 # Try to get license row with product info matching current PC
-Try {$license = ($list | Where {$_.Product -eq $product})[0]}
+Try {$key = ($list | Where {$_.Product -eq $product})[0]).Key}
 # Notify the user and abort
 Catch {(New-Object -ComObject Wscript.Shell).Popup("Couldn't find a key matching $product!", 0, "Error", 0+48);break}
 # Notify the user
 (New-Object -ComObject Wscript.Shell).Popup("Product key for $product was found. Activating Windows now.", 0, "Success", 0+64)
-# Store key from license in variable
-$key = $license.Key
 
 # Activate Windows with selected key
 $service = Get-WmiObject -Query "SELECT * FROM SoftwareLicensingService"
