@@ -12,10 +12,12 @@ If (Test-Path $licFilePath) {
     break
 }
 
-# Try to get license row with product info matching current PC
-Try {$key = ($list | Where {$_.Product -eq $product})[0]).Key}
+# Get license row with product info matching current PC
+Try {$key = ($list | Where-Object {$_.Product -eq $product})[0].Key}
+
 # Notify the user and abort
-Catch {(New-Object -ComObject Wscript.Shell).Popup("Couldn't find a key matching $product!", 0, "Error", 0+48);break}
+Catch {(New-Object -ComObject Wscript.Shell).Popup("Couldn't find a key for $product!", 0, "Error", 0+48);break}
+
 # Notify the user
 (New-Object -ComObject Wscript.Shell).Popup("Product key for $product was found. Activating Windows now.", 0, "Success", 0+64)
 
@@ -29,4 +31,4 @@ If ($service.InstallProductKey($key)) {
 $service.RefreshLicenseStatus()
 
 # Write key list to file removing used one
-$list | Where {$_.Key -ne $key} | Export-Csv $licFilePath -NoTypeInformation
+$list | Where-Object {$_.Key -ne $key} | Export-Csv $licFilePath -NoTypeInformation -Encoding ASCII
