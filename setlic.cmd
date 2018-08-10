@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File .\scripts\setlic.ps1

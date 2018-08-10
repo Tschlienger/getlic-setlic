@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File .\scripts\getlic.ps1
