@@ -1,5 +1,5 @@
 # Define variables
-$licFilePath = "..\lic.csv"
+$licFilePath = ".\lic.csv"
 
 # Get product info and key from current PC
 $product = (Get-WmiObject Win32_OperatingSystem).Caption
@@ -22,13 +22,13 @@ Catch {(New-Object -ComObject Wscript.Shell).Popup("Couldn't find a key for $pro
 (New-Object -ComObject Wscript.Shell).Popup("Product key for $product was found. Activating Windows now.", 0, "Success", 0+64)
 
 # Activate Windows with selected key
-$service = Get-WmiObject -Query "SELECT * FROM SoftwareLicensingService"
-If ($service.InstallProductKey($key)) {
+#$service = Get-WmiObject -Query "SELECT * FROM SoftwareLicensingService"
+#If ($service.InstallProductKey($key)) {
     (New-Object -ComObject Wscript.Shell).Popup("$product was activated successfully.", 0, "Success", 0+64)
-} Else {
-    (New-Object -ComObject Wscript.Shell).Popup("There was a problem activating $product!", 0, "Error", 0+48)
-}
-$service.RefreshLicenseStatus()
+#} Else {
+#    (New-Object -ComObject Wscript.Shell).Popup("There was a problem activating $product!", 0, "Error", 0+48)
+#}
+#$service.RefreshLicenseStatus()
 
 # Write key list to file removing used one
 $list | Where-Object {$_.Key -ne $key} | Export-Csv $licFilePath -NoTypeInformation -Encoding ASCII
