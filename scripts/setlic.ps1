@@ -1,5 +1,5 @@
 # Define variables
-$licFilePath = ".\lic.csv"
+$licFilePath = "..\lic.csv"
 
 # Get product info and key from current PC
 $product = (Get-WmiObject Win32_OperatingSystem).Caption
