@@ -12,7 +12,7 @@ If (Test-Path $licFilePath) {
     break
 }
 
-# Get license row with product info matching current PC
+# Try to get license row with product info matching current PC
 Try {$key = ($list | Where-Object {$_.Product -eq $product})[0].Key}
 
 # Notify the user and abort
